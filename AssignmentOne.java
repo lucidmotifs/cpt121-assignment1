@@ -21,19 +21,25 @@ public class AssignmentOne {
 		String carMakeModel;
 		String carRegistration;
 		
+		// Strings to store the list of infringements and damages
 		String infringementList = new String();
 		String damageRepairList = new String();
 		
+		// Rates and total charges
 		double surchargeRate;
 		double dailyHireRate;		
 		double basicHireCharge;
 		double adjustedHireCharge;
 		double surchargeTotal;
+		
 		// Extra Costs
 		double infringementCost = 0.0;
 		double damageRepairCost = 0.0;				
 		
+		// refers to the pre-arranged length the car will be hired
 		int hireLength;
+		
+		// the actual number of days the car was kept 
 		int daysHired;
 		
 		char carSize;
