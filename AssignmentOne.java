@@ -21,16 +21,23 @@ public class AssignmentOne {
 		String carMakeModel;
 		String carRegistration;
 		
+		String infringementList = new String();
+		String damageRepairList = new String();
+		
 		double surchargeRate;
 		double dailyHireRate;		
 		double basicHireCharge;
 		double adjustedHireCharge;
 		double surchargeTotal;
+		// Extra Costs
+		double infringementCost = 0.0;
+		double damageRepairCost = 0.0;				
 		
 		int hireLength;
 		int daysHired;
 		
 		char carSize;
+		char menuSelection;
 			
 		// Create Scanner instance to read user input
 		Scanner in = new Scanner(System.in);
@@ -84,7 +91,71 @@ public class AssignmentOne {
 		// Actual Days Hired
 		System.out.print("Enter Days Hired: ");
 		daysHired = in.nextInt();
-		in.nextLine();
+		in.nextLine();		
+		
+		menuSelection = ' ';
+		while (!(menuSelection == 'x' || menuSelection == 'X')) {		
+		
+			// Repair and Infringement menu
+			System.out.println();
+			System.out.println("Damage Repair / Traffic Infringement Data Entry Menu");
+			System.out.println("----------------------------------------------------");
+			System.out.println();
+			System.out.println("A - Record Damage Repair Details");
+			System.out.println("B - Record Traffic Infringement Details");
+			System.out.println("X - Exit");
+			System.out.println();
+			
+			// Menu option selection line		
+			System.out.print("Enter your selection: ");
+			menuSelection = in.next().charAt(0);
+			in.nextLine();
+			
+			switch(menuSelection) {
+				case 'a':
+				case 'A':
+					// Damage Repair Section
+					// Declare temporary variables for damage and cost
+					String _damage;
+					double _cost;
+					
+					System.out.print("Enter Description of Damage Repair: ");
+					_damage = in.nextLine();
+					
+					System.out.print("Enter Repair Cost: ");
+					_cost = in.nextDouble();
+					
+					// Add formatted string to list, with new damage item added.
+					damageRepairList = String.format("%s %n - %s ($%.2f)", damageRepairList, _damage, _cost);
+					damageRepairCost += _cost;
+					in.nextLine();					
+					break;
+				case 'b':
+				case 'B':
+					// Traffic Infringement Section
+					// Declare temporary variables for infringement and cost
+					String _infringement;
+					double _amount;
+					
+					System.out.print("Enter Details of Traffic Infringement: ");
+					_infringement = in.nextLine();
+					
+					System.out.print("Enter Infringement Fine Amount: ");
+					_amount = in.nextDouble();
+					
+					// Add formatted string to list, with new infrginement added.
+					infringementList = String.format("%s %n - %s ($%.2f)", infringementList, _infringement, _amount);
+					infringementCost += _amount;
+					in.nextLine();
+					break;
+				case 'x':
+				case 'X':
+					System.out.println("Exiting data entry menu...");
+					break;
+				default:
+					System.out.println("Error - Invalid menu selection!");
+			}		
+		} 
 		
 		// Find Hire Charge
 		switch(carSize) {
@@ -97,7 +168,7 @@ public class AssignmentOne {
 			case 'l':
 			case 'L':	dailyHireRate = LARGE_HIRE_CHARGE;
 						break;
-			default:	dailyHireRate = 0;
+			default:	dailyHireRate = 0.0;
 		}
 		
 		// Calculate hire charge
@@ -139,6 +210,24 @@ public class AssignmentOne {
 		System.out.printf("%-25s %40d %n", "Days Hired:", daysHired);
 		System.out.printf("%-25s %40.2f %n", "Late Return Surcharge:", surchargeTotal);
 		System.out.printf("%-25s %40.2f %n", "Adjusted Hire Charge:", adjustedHireCharge);
+		System.out.println();
+		
+		// Damage Repair
+		System.out.println("Damage Repair Details:");
+		System.out.println(damageRepairList);
+		System.out.println();
+		System.out.printf("%-25s %40.2f %n", "Damage Repair Total:", damageRepairCost);
+		System.out.println();
+		
+		// Traffic Infringements
+		System.out.println("Traffic Infringement Fine Details:");
+		System.out.println(infringementList);
+		System.out.println();
+		System.out.printf("%-25s %40.2f %n", "Traffic Fine Total:", infringementCost);
+		System.out.println();
+		
+		// Final cost
+		System.out.printf("%-25s %40.2f %n", "Final Hire Charge:", (adjustedHireCharge + damageRepairCost + infringementCost));
 		System.out.println();
 	}
 }
